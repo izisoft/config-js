@@ -1,0 +1,27 @@
+{
+  "name": "config-js",
+  "version": "1.0.0",
+  "description": "Module for handling configuration files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/izisoft/config-js.git"
+  },
+  "keywords": [
+    "configuration",
+    "config"
+  ],
+  "author": "izisoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/izisoft/config-js/issues"
+  },
+  "homepage": "https://github.com/izisoft/config-js",
+  "dependencies": {
+    "lodash": "^4.12.0",
+    "minimist": "^1.2.0"
+  }
+}
