@@ -17,6 +17,7 @@ function Config() {
  * @returns {Config}
  */
 Config.prototype.init = function(options) {
+	options = options || {};
 	options.default_env = options.default_env || 'dev';
 	options.env_arg = options.env_arg || 'e';
 	
