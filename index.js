@@ -1,12 +1,16 @@
 'use strict';
 
 var _ = require('lodash');
+var fs = require('fs');
 
 /**
  * 
  */
 module.exports = new Config();
 
+/**
+ * Main configuration container
+ */
 function Config() {
 	this._args = require('minimist')(process.argv.slice(2));
 }
@@ -18,10 +22,10 @@ function Config() {
  */
 Config.prototype.init = function(options) {
 	options = options || {};
-	options.default_env = options.default_env || 'dev';
-	options.env_arg = options.env_arg || 'e';
+	options.default_phase = options.default_phase || 'dev';
+	options.phase_arg = options.phase_arg || 'm';
 	
-	this._env = this._args[options.env_arg] || options.default_env;
+	this._phase = this._args[options.phase_arg] || options.default_phase;
 
 	return this;
 }
@@ -31,9 +35,19 @@ Config.prototype.init = function(options) {
  * @param env
  * @returns {Config}
  */
-Config.prototype.setEnv = function(env) {
-	this._env = env;
+Config.prototype.setPhase = function(phase) {
+	this._phase = phase;
 	return this;
+}
+
+function getJson(conf) {
+	if(typeof conf === 'object') {
+		return conf;
+	} else if(typeof conf !== 'undefined') {
+		return JSON.parse(fs.readFileSync(conf, {encoding: 'utf-8'}));
+	} else {
+		return {};
+	}
 }
 
 /**
@@ -43,23 +57,17 @@ Config.prototype.setEnv = function(env) {
  * @returns {Config}
  */
 Config.prototype.parse = function(public_conf, private_conf) {
-	if(typeof this._env === 'undefined') {
+	if(typeof this._phase === 'undefined') {
 		this.init();
 	}
 	
-	var pub = require(public_config);
-	var priv = {};
-	if(typeof private_conf !== 'undefined') {
-		priv = require(private_conf);
-	}
-	
-	var tmp = pub.common;
-	_.merge(tmp, pub[this._env] || {});
-	
-	_.merge(tmp, priv.common || {});
-	_.merge(tmp, priv[this._env] || {});
-	
-	_.assign(this, tmp);
+	var pub_json = getJson(public_conf);
+	var priv_json = getJson(private_conf);
+
+	_.assign(this, pub_json.common);
+	_.merge(this, pub_json[this._phase] || {});
+	_.merge(this, priv_json.common || {});
+	_.merge(this, priv_json[this._phase] || {});
 	
 	return this;
 } 
