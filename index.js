@@ -51,9 +51,10 @@ function getJson(conf) {
 }
 
 /**
+ * Parse given configurations.
  * 
- * @param public_conf
- * @param private_conf
+ * @param {String|Object} public_conf
+ * @param {String|Object} private_conf
  * @returns {Config}
  */
 Config.prototype.parse = function(public_conf, private_conf) {
