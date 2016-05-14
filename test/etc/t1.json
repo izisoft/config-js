@@ -1,4 +1,8 @@
 {
+	"options": {
+		"default_phase": "dev",
+		"phase_arg": "m"
+	},
 	"common": {
 		"a":1,
 		"b":2,

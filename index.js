@@ -58,12 +58,12 @@ function getJson(conf) {
  * @returns {Config}
  */
 Config.prototype.parse = function(public_conf, private_conf) {
-	if(typeof this._phase === 'undefined') {
-		this.init();
-	}
-	
 	var pub_json = getJson(public_conf);
 	var priv_json = getJson(private_conf);
+	
+	if(typeof this._phase === 'undefined') {
+		this.init(priv_json.options || pub_json.options);
+	}
 
 	_.assign(this, pub_json.common);
 	_.merge(this, pub_json[this._phase] || {});
